@@ -20,11 +20,15 @@ file = st.file_uploader("Upload a CSV file with orders latitude and longitude fi
 st.sidebar.title("Input Parameters")
 
 # Accept user input for n_clusters and max_weight
-n_clusters = st.sidebar.slider("Number of clusters", min_value=1, max_value=1000, value=50)
-max_weight = st.sidebar.slider("Maximum stops per cluster", min_value=1, max_value=1000, value=28)
+n_clusters = st.sidebar.text_input("Number of clusters", value="50")
+max_weight = st.sidebar.text_input("Maximum stops per cluster", value="28")
 
 # If a file is uploaded, cluster the data and display the results
 if file is not None:
+    # Convert the input values to integers
+    n_clusters = int(n_clusters)
+    max_weight = int(max_weight)
+
     # Call the cluster_data function with the user input arguments
     data, m = cluster_data(file, n_clusters, max_weight)
     
@@ -34,7 +38,7 @@ if file is not None:
     
     # Display the folium map
     st.write("Cluster Map:")
-    st_folium(m, width = 1000)
+    st_folium(m, width=1000)
 else:
     st.write("Please upload a file to begin clustering.")
 
